@@ -122,21 +122,24 @@ function GrokaUI:CreateWindow(title)
 	stroke.Parent = main
 
 	--// Topbar
-	local top = Instance.new("Frame")
-	top.Size = UDim2.new(1,0,0,50)
-	top.BackgroundColor3 = self.Theme.Topbar
-	top.Parent = main
+--// Topbar
+--// Topbar
+local top = Instance.new("Frame")
+top.Size = UDim2.new(1,0,0,50)
+top.BackgroundColor3 = self.Theme.Topbar
+top.Parent = main
 
-	Instance.new("UICorner",top).CornerRadius = UDim.new(0,16)
+Instance.new("UICorner",top).CornerRadius = UDim.new(0,16)
 
-	local titleLbl = Instance.new("TextLabel")
-	titleLbl.Size = UDim2.new(1,0,1,0)
-	titleLbl.BackgroundTransparency = 1
-	titleLbl.Text = ""..(title or "Groka UI")
-	titleLbl.Font = Enum.Font.GothamBold
-	titleLbl.TextColor3 = self.Theme.Text
-	titleLbl.TextSize = 24
-	titleLbl.Parent = top
+--// TITLE (FULL FIXED VERSION)
+local titleLbl = Instance.new("TextLabel")
+titleLbl.Size = UDim2.new(1,0,1,0)
+titleLbl.BackgroundTransparency = 1
+titleLbl.Text = tostring(title or "Groka UI")
+titleLbl.Font = Enum.Font.GothamBold
+titleLbl.TextColor3 = self.Theme.Text
+titleLbl.TextSize = 24
+titleLbl.Parent = top
 
 	--// Dragging
 	do
