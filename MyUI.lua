@@ -132,7 +132,7 @@ function GrokaUI:CreateWindow(title)
 	local titleLbl = Instance.new("TextLabel")
 	titleLbl.Size = UDim2.new(1,0,1,0)
 	titleLbl.BackgroundTransparency = 1
-	titleLbl.Text = "✨ "..(title or "Groka UI")
+	titleLbl.Text = ""..(title or "Groka UI")
 	titleLbl.Font = Enum.Font.GothamBold
 	titleLbl.TextColor3 = self.Theme.Text
 	titleLbl.TextSize = 24
