@@ -241,7 +241,9 @@ if icon then
 	windowIcon.Size = UDim2.new(0,22,0,22)
 	windowIcon.Position = UDim2.new(0,20,0,19)
 	windowIcon.BackgroundTransparency = 1
-	windowIcon.Image = icon
+	windowIcon.Image = tostring(icon):find("rbxassetid://")
+	and tostring(icon)
+	or ("rbxassetid://" .. tostring(icon))
 	windowIcon.Parent = top
 
 	titleLbl.Position = UDim2.new(0,50,0,8)
