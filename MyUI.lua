@@ -79,7 +79,7 @@ NotifyHolder.Position               = UDim2.new(1, -330, 0, 10)
 NotifyHolder.Parent                 = NotifyGui
 
 local NotifyLayout = Instance.new("UIListLayout")
-NotifyLayout.Padding           = UDim.new(0, 8)
+NotifyLayout.Padding           = UDim.new(0, 9)
 NotifyLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
 NotifyLayout.SortOrder         = Enum.SortOrder.LayoutOrder
 NotifyLayout.Parent            = NotifyHolder
