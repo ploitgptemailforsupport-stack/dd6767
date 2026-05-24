@@ -20,10 +20,10 @@ GrokaUI.Theme = {
 	TabInactive   = Color3.fromRGB(28, 28, 42),
 }
 
-Library.Icons = {
+GrokaUI.Icons = {
 	Text = "rbxassetid://6031094678",
-	Combat = "rbxassetid://...",
-	Player = "rbxassetid://..."
+	Combat = "rbxassetid://6031280882",
+	Player = "rbxassetid://6031265976"
 }
 
 local TweenService = game:GetService("TweenService")
