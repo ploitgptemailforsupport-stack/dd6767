@@ -104,7 +104,6 @@ function GrokaUI:Notify(title, text, duration, typ)
 	frame.Position = UDim2.new(0.5, -250, 0, 100)
 	frame.ClipsDescendants   = true
 	frame.Parent             = NotifyHolder
-	Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 14)
 
 	local s = Instance.new("UIStroke")
 	s.Color        = accentColor
