@@ -166,7 +166,7 @@ function GrokaUI:Notify(title,text,duration,typ)
 end
 
 --// Window
-function GrokaUI:CreateWindow(title,subtitle)
+function GrokaUI:CreateWindow(title,subtitle,icon)
 
 	local T = self.Theme
 	local connections = {}
@@ -210,29 +210,46 @@ function GrokaUI:CreateWindow(title,subtitle)
 	fix.BorderSizePixel = 0
 	fix.Parent = top
 
-	local titleLbl = Instance.new("TextLabel")
-	titleLbl.BackgroundTransparency = 1
-	titleLbl.Position = UDim2.new(0,20,0,8)
-	titleLbl.Size = UDim2.new(0,300,0,22)
-	titleLbl.Text = title or "Groka UI"
-	titleLbl.Font = Enum.Font.GothamBold
-	titleLbl.TextSize = 20
-	titleLbl.TextColor3 = T.Text
-	titleLbl.TextXAlignment = Enum.TextXAlignment.Left
-	titleLbl.Parent = top
+local titleLbl = Instance.new("TextLabel")
+titleLbl.BackgroundTransparency = 1
+titleLbl.Position = UDim2.new(0,20,0,8)
+titleLbl.Size = UDim2.new(0,300,0,22)
+titleLbl.Text = title or "Groka UI"
+titleLbl.Font = Enum.Font.GothamBold
+titleLbl.TextSize = 20
+titleLbl.TextColor3 = T.Text
+titleLbl.TextXAlignment = Enum.TextXAlignment.Left
+titleLbl.Parent = top
 
-	if subtitle then
-		local sub = Instance.new("TextLabel")
-		sub.BackgroundTransparency = 1
-		sub.Position = UDim2.new(0,20,0,32)
-		sub.Size = UDim2.new(0,300,0,16)
-		sub.Text = subtitle
-		sub.Font = Enum.Font.Gotham
-		sub.TextSize = 12
-		sub.TextColor3 = T.SubText
-		sub.TextXAlignment = Enum.TextXAlignment.Left
-		sub.Parent = top
+local sub
+
+if subtitle then
+	sub = Instance.new("TextLabel")
+	sub.BackgroundTransparency = 1
+	sub.Position = UDim2.new(0,20,0,32)
+	sub.Size = UDim2.new(0,300,0,16)
+	sub.Text = subtitle
+	sub.Font = Enum.Font.Gotham
+	sub.TextSize = 12
+	sub.TextColor3 = T.SubText
+	sub.TextXAlignment = Enum.TextXAlignment.Left
+	sub.Parent = top
+end
+
+if icon then
+	local windowIcon = Instance.new("ImageLabel")
+	windowIcon.Size = UDim2.new(0,22,0,22)
+	windowIcon.Position = UDim2.new(0,20,0,19)
+	windowIcon.BackgroundTransparency = 1
+	windowIcon.Image = icon
+	windowIcon.Parent = top
+
+	titleLbl.Position = UDim2.new(0,50,0,8)
+
+	if sub then
+		sub.Position = UDim2.new(0,50,0,32)
 	end
+end
 
 	--// Close
 	local close = Instance.new("TextButton")
