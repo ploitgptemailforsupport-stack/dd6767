@@ -135,14 +135,14 @@ function GrokaUI:Notify(title, text, duration, typ)
 	body.Parent                 = frame
 
 	local bar = Instance.new("Frame")
-	bar.Size             = UDim2.new(1, 0, 0, 3)
-	bar.Position         = UDim2.new(0, 0, 1, -3)
+	bar.Size = UDim2.new(1, -16, 0, 2)
+	bar.Position = UDim2.new(0, 8, 1, -6)
 	bar.BackgroundColor3 = accentColor
 	bar.BorderSizePixel  = 0
 	bar.Parent           = frame
 
 	tween(frame, { Position = UDim2.new(0, 0, 0, 0) }, 0.3, Enum.EasingStyle.Back):Play()
-	tween(bar,   { Size     = UDim2.new(0, 0, 0, 3) }, duration, Enum.EasingStyle.Linear):Play()
+	tween(bar, { Size = UDim2.new(0, 0, 0, 2) }, duration, Enum.EasingStyle.Quart):Play()
 
 	task.delay(duration, function()
 		tween(frame, { Position = UDim2.new(0, 0, 0, 100), BackgroundTransparency = 1 }, 0.25):Play()
