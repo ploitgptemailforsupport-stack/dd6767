@@ -133,12 +133,13 @@ function GrokaUI:Notify(title, text, duration, typ)
 	body.TextXAlignment         = Enum.TextXAlignment.Left
 	body.Parent                 = frame
 
-	local bar = Instance.new("Frame")
-	bar.Size = UDim2.new(1, -16, 0, 2)
-	bar.Position = UDim2.new(0, 8, 1, -6)
-	bar.BackgroundColor3 = accentColor
-	bar.BorderSizePixel  = 0
-	bar.Parent           = frame
+local bar = Instance.new("Frame")
+bar.Size             = UDim2.new(1, -16, 0, 2)
+bar.Position         = UDim2.new(0, 8, 1, 6)
+bar.BackgroundColor3 = accentColor
+bar.BorderSizePixel  = 0
+bar.Parent           = frame
+Instance.new("UICorner", bar).CornerRadius = UDim.new(1, 0)
 
 	tween(frame, { Position = UDim2.new(0, 0, 0, 0) }, 0.3, Enum.EasingStyle.Back):Play()
 	tween(bar, { Size = UDim2.new(0, 0, 0, 2) }, duration, Enum.EasingStyle.Quart):Play()
