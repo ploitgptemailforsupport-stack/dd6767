@@ -74,7 +74,7 @@ NotifyGui.Parent         = PlayerGui
 
 local NotifyHolder = Instance.new("Frame")
 NotifyHolder.BackgroundTransparency = 1
-NotifyHolder.Size                   = UDim2.new(0, 320, 0, 500)
+NotifyHolder.Size                   = UDim2.new(0, 420, 0, 500)
 NotifyHolder.AnchorPoint            = Vector2.new(0.5, 1)
 NotifyHolder.Position               = UDim2.new(0.5, 0, 1, -20)
 NotifyHolder.Parent                 = NotifyGui
@@ -99,7 +99,7 @@ function GrokaUI:Notify(title, text, duration, typ)
 	local accentColor = colors[typ] or colors.info
 
 	local frame = Instance.new("Frame")
-	frame.Size               = UDim2.new(1, 0, 0, 78)
+	frame.Size = UDim2.new(1, 0, 0, 58)
 	frame.BackgroundColor3   = Color3.fromRGB(18, 18, 28)
 	frame.Position           = UDim2.new(0, 0, 0, 100)
 	frame.ClipsDescendants   = true
@@ -114,7 +114,7 @@ function GrokaUI:Notify(title, text, duration, typ)
 	local titleLbl = Instance.new("TextLabel")
 	titleLbl.BackgroundTransparency = 1
 	titleLbl.Size                   = UDim2.new(1, -20, 0, 20)
-	titleLbl.Position               = UDim2.new(0, 12, 0, 10)
+	titleLbl.Position               = UDim2.new(0, 12, 0, 6)
 	titleLbl.Text                   = tostring(title)
 	titleLbl.Font                   = Enum.Font.GothamBold
 	titleLbl.TextColor3             = Color3.new(1,1,1)
@@ -125,7 +125,7 @@ function GrokaUI:Notify(title, text, duration, typ)
 	local body = Instance.new("TextLabel")
 	body.BackgroundTransparency = 1
 	body.Size                   = UDim2.new(1, -20, 0, 32)
-	body.Position               = UDim2.new(0, 12, 0, 34)
+	body.Position	 			= UDim2.new(0, 12, 0, 24)
 	body.Text                   = tostring(text)
 	body.Font                   = Enum.Font.Gotham
 	body.TextColor3             = Color3.fromRGB(190, 190, 210)
