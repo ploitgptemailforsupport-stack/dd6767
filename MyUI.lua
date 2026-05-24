@@ -135,7 +135,7 @@ function GrokaUI:Notify(title, text, duration, typ)
 
 	local bar = Instance.new("Frame")
 	bar.Size = UDim2.new(1, -16, 0, 2)
-	bar.Position = UDim2.new(0, 8, 1, -6)
+	bar.Position = UDim2.new(0, 8, 1, -1)
 	bar.BackgroundColor3 = accentColor
 	bar.BorderSizePixel  = 0
 	bar.Parent           = frame
