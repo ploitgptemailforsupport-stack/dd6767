@@ -74,17 +74,17 @@ NotifyGui.Parent         = PlayerGui
 
 local NotifyHolder = Instance.new("Frame")
 NotifyHolder.BackgroundTransparency = 1
-NotifyHolder.Size                   = UDim2.new(0, 320, 1, 0)
+NotifyHolder.Size                   = UDim2.new(0, 320, 0, 500)
 NotifyHolder.AnchorPoint            = Vector2.new(0.5, 1)
 NotifyHolder.Position               = UDim2.new(0.5, 0, 1, -20)
 NotifyHolder.Parent                 = NotifyGui
 
 local NotifyLayout = Instance.new("UIListLayout")
-NotifyLayout.Padding           = UDim.new(0, 9)
-NotifyLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+NotifyLayout.Padding = UDim.new(0, 9)
 NotifyLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-NotifyLayout.SortOrder         = Enum.SortOrder.LayoutOrder
-NotifyLayout.Parent            = NotifyHolder
+NotifyLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+NotifyLayout.SortOrder = Enum.SortOrder.LayoutOrder
+NotifyLayout.Parent = NotifyHolder
 
 function GrokaUI:Notify(title, text, duration, typ)
 	duration = duration or 4
