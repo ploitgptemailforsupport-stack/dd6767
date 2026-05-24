@@ -237,14 +237,23 @@ if subtitle then
 end
 
 if icon then
-	local windowIcon = Instance.new("ImageLabel")
-	windowIcon.Size = UDim2.new(0,22,0,22)
-	windowIcon.Position = UDim2.new(0,20,0,19)
-	windowIcon.BackgroundTransparency = 1
-	windowIcon.Image = tostring(icon):find("rbxassetid://")
-	and tostring(icon)
-	or ("rbxassetid://" .. tostring(icon))
-	windowIcon.Parent = top
+	local iconStr = tostring(icon)
+	local numericId = iconStr:match("rbxassetid://(%d+)") or iconStr:match("^(%d+)$")
+
+	if numericId then
+		local windowIcon = Instance.new("ImageLabel")
+		windowIcon.Size = UDim2.new(0,22,0,22)
+		windowIcon.Position = UDim2.new(0,20,0,19)
+		windowIcon.BackgroundTransparency = 1
+		windowIcon.Image = "rbxassetid://" .. numericId
+		windowIcon.Parent = top
+
+		titleLbl.Position = UDim2.new(0,50,0,8)
+		if sub then
+			sub.Position = UDim2.new(0,50,0,32)
+		end
+	end
+end
 
 	titleLbl.Position = UDim2.new(0,50,0,8)
 
