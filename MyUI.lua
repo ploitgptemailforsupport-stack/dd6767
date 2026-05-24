@@ -113,7 +113,7 @@ function GrokaUI:Notify(title, text, duration, typ)
 	local titleLbl = Instance.new("TextLabel")
 	titleLbl.BackgroundTransparency = 1
 	titleLbl.Size                   = UDim2.new(1, -20, 0, 20)
-	titleLbl.Position               = UDim2.new(0, 12, 0, 6)
+	titleLbl.Position               = UDim2.new(0, 12, 0, 7)
 	titleLbl.Text                   = tostring(title)
 	titleLbl.Font                   = Enum.Font.GothamBold
 	titleLbl.TextColor3             = Color3.new(1,1,1)
