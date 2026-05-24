@@ -75,12 +75,14 @@ NotifyGui.Parent         = PlayerGui
 local NotifyHolder = Instance.new("Frame")
 NotifyHolder.BackgroundTransparency = 1
 NotifyHolder.Size                   = UDim2.new(0, 320, 1, 0)
-NotifyHolder.Position               = UDim2.new(1, -330, 0, 10)
+NotifyHolder.AnchorPoint            = Vector2.new(0.5, 1)
+NotifyHolder.Position               = UDim2.new(0.5, 0, 1, -20)
 NotifyHolder.Parent                 = NotifyGui
 
 local NotifyLayout = Instance.new("UIListLayout")
 NotifyLayout.Padding           = UDim.new(0, 9)
 NotifyLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+NotifyLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 NotifyLayout.SortOrder         = Enum.SortOrder.LayoutOrder
 NotifyLayout.Parent            = NotifyHolder
 
@@ -99,7 +101,7 @@ function GrokaUI:Notify(title, text, duration, typ)
 	local frame = Instance.new("Frame")
 	frame.Size               = UDim2.new(1, 0, 0, 78)
 	frame.BackgroundColor3   = Color3.fromRGB(18, 18, 28)
-	frame.Position           = UDim2.new(1, 0, 0, 0)
+	frame.Position           = UDim2.new(0, 0, 0, 100)
 	frame.ClipsDescendants   = true
 	frame.Parent             = NotifyHolder
 	Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 14)
@@ -143,7 +145,7 @@ function GrokaUI:Notify(title, text, duration, typ)
 	tween(bar,   { Size     = UDim2.new(0, 0, 0, 3) }, duration, Enum.EasingStyle.Linear):Play()
 
 	task.delay(duration, function()
-		tween(frame, { Position = UDim2.new(1, 0, 0, 0), BackgroundTransparency = 1 }, 0.25):Play()
+		tween(frame, { Position = UDim2.new(0, 0, 0, 100), BackgroundTransparency = 1 }, 0.25):Play()
 		task.wait(0.3)
 		frame:Destroy()
 	end)
