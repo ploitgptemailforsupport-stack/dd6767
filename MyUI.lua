@@ -491,7 +491,11 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 		addCorner(indicator, 2)
 
 		-- TAB ICON: ImageLabel only (rbxassetid)
-		local tabNumericId = parseAssetId(icon) or parseAssetId(GrokaUI.Icons.Info)
+				local tabNumericId = parseAssetId(icon)
+		if not tabNumericId then
+			warn("[GrokaUI] Bad tab icon for:", name, icon)
+			tabNumericId = parseAssetId(GrokaUI.Icons.Info)
+		end
 		local nameOffset = 42
 
 		local iconBg = Instance.new("Frame")
