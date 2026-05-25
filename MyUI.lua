@@ -68,6 +68,12 @@ local function addStroke(parent, color, transparency, thickness)
 	return s
 end
 
+local function parseAssetId(icon)
+	if not icon then return nil end
+	local iconStr = tostring(icon)
+	return iconStr:match("rbxassetid://(%d+)") or iconStr:match("^(%d+)$")
+end
+
 local function addRipple(btn, color)
 	btn.MouseButton1Down:Connect(function(x, y)
 		local ripple = Instance.new("Frame")
@@ -146,7 +152,7 @@ function GrokaUI:Notify(title, text, duration, typ)
 	local body = Instance.new("TextLabel")
 	body.BackgroundTransparency = 1
 	body.Size                   = UDim2.new(1, -20, 0, 32)
-	body.Position	 			= UDim2.new(0, 12, 0, 24)
+	body.Position               = UDim2.new(0, 12, 0, 24)
 	body.Text                   = tostring(text)
 	body.Font                   = Enum.Font.Gotham
 	body.TextColor3             = Color3.fromRGB(190, 190, 210)
@@ -155,13 +161,13 @@ function GrokaUI:Notify(title, text, duration, typ)
 	body.TextXAlignment         = Enum.TextXAlignment.Left
 	body.Parent                 = frame
 
-local bar = Instance.new("Frame")
-bar.Size             = UDim2.new(1, -16, 0, 2)
-bar.Position         = UDim2.new(0, 8, 1, 6)
-bar.BackgroundColor3 = accentColor
-bar.BorderSizePixel  = 0
-bar.Parent           = frame
-Instance.new("UICorner", bar).CornerRadius = UDim.new(1, 0)
+	local bar = Instance.new("Frame")
+	bar.Size             = UDim2.new(1, -16, 0, 2)
+	bar.Position         = UDim2.new(0, 8, 1, 6)
+	bar.BackgroundColor3 = accentColor
+	bar.BorderSizePixel  = 0
+	bar.Parent           = frame
+	Instance.new("UICorner", bar).CornerRadius = UDim.new(1, 0)
 
 	tween(frame, { Position = UDim2.new(0, 0, 0, 0) }, 0.3, Enum.EasingStyle.Back):Play()
 	tween(bar, { Size = UDim2.new(0, 0, 0, 2) }, duration, Enum.EasingStyle.Quart):Play()
@@ -187,7 +193,6 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 	sg.ZIndexBehavior  = Enum.ZIndexBehavior.Sibling
 	sg.Parent          = PlayerGui
 
-	-- Layered shadow / glow
 	local shadowOuter = Instance.new("Frame")
 	shadowOuter.Size                   = UDim2.new(0, 610, 0, 480)
 	shadowOuter.Position               = UDim2.new(0.5, -305, 0.5, -240)
@@ -215,12 +220,10 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 	addCorner(main, 18)
 	addStroke(main, T.Border, 0.35, 1)
 
-	-- Open animation
 	main.Size     = UDim2.new(0, 560, 0, 430)
 	main.Position = UDim2.new(0.5, -280, 0.5, -215)
 	tween(main, { Size = UDim2.new(0, 580, 0, 450), Position = UDim2.new(0.5, -290, 0.5, -225) }, 0.35, Enum.EasingStyle.Back):Play()
 
-	-- Accent top line
 	local accentLine = Instance.new("Frame")
 	accentLine.Size             = UDim2.new(1, 0, 0, 2)
 	accentLine.BackgroundColor3 = T.Accent
@@ -236,11 +239,11 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 	})
 	accentGrad.Parent = accentLine
 
-	--// Topbar
 	local top = Instance.new("Frame")
 	top.Size             = UDim2.new(1, 0, 0, 64)
 	top.BackgroundColor3 = T.Topbar
 	top.BorderSizePixel  = 0
+	top.ZIndex           = 5
 	top.Parent           = main
 	addCorner(top, 18)
 
@@ -284,34 +287,29 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 		sub.Parent                 = top
 	end
 
-	if icon then
-		local iconStr   = tostring(icon)
-		local numericId = iconStr:match("rbxassetid://(%d+)") or iconStr:match("^(%d+)$")
-		if numericId then
-			local iconBg = Instance.new("Frame")
-			iconBg.Size             = UDim2.new(0, 34, 0, 34)
-			iconBg.Position         = UDim2.new(0, 16, 0.5, -17)
-			iconBg.BackgroundColor3 = T.Surface
-			iconBg.ZIndex           = 5
-			iconBg.Parent           = top
-			addCorner(iconBg, 10)
-			addStroke(iconBg, T.BorderLight, 0.6)
+	local windowNumericId = parseAssetId(icon)
+	if windowNumericId then
+		local iconBg = Instance.new("Frame")
+		iconBg.Size             = UDim2.new(0, 34, 0, 34)
+		iconBg.Position         = UDim2.new(0, 16, 0.5, -17)
+		iconBg.BackgroundColor3 = T.Surface
+		iconBg.ZIndex           = 6
+		iconBg.Parent           = top
+		addCorner(iconBg, 10)
+		addStroke(iconBg, T.BorderLight, 0.6)
 
-			local img = Instance.new("ImageLabel")
-			img.Size                   = UDim2.new(0, 20, 0, 20)
-			img.Position               = UDim2.new(0.5, -10, 0.5, -10)
-			img.BackgroundTransparency = 1
-			img.Image                  = "rbxassetid://" .. numericId
-			img.ImageColor3            = T.Accent
-			img.ScaleType              = Enum.ScaleType.Fit
-			img.ZIndex                 = 6
-			img.Parent                 = iconBg
+		local img = Instance.new("ImageLabel")
+		img.Size                   = UDim2.new(0, 20, 0, 20)
+		img.Position               = UDim2.new(0.5, -10, 0.5, -10)
+		img.BackgroundTransparency = 1
+		img.Image                  = "rbxassetid://" .. windowNumericId
+		img.ImageColor3            = T.Accent
+		img.ScaleType              = Enum.ScaleType.Fit
+		img.ZIndex                 = 7
+		img.Parent                 = iconBg
 
-			titleLbl.Position = UDim2.new(0, 58, 0, 10)
-			if sub then
-				sub.Position = UDim2.new(0, 58, 0, 34)
-			end
-		end
+		titleLbl.Position = UDim2.new(0, 58, 0, 10)
+		if sub then sub.Position = UDim2.new(0, 58, 0, 34) end
 	end
 
 	local function makeChromeBtn(text, posX, hoverColor)
@@ -324,6 +322,7 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 		btn.TextColor3       = T.SubText
 		btn.TextSize         = 14
 		btn.AutoButtonColor  = false
+		btn.ZIndex           = 6
 		btn.Parent           = top
 		addCorner(btn, 10)
 		local stroke = addStroke(btn, T.Border, 0.5)
@@ -350,22 +349,38 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 	end)
 
 	local minimised = false
-	local fullSize  = main.Size
+	local fullMainSize   = UDim2.new(0, 580, 0, 450)
+	local miniMainSize   = UDim2.new(0, 580, 0, 64)
+	local fullShadowSize = UDim2.new(0, 596, 0, 466)
+	local miniShadowSize = UDim2.new(0, 596, 0, 72)
+	local fullOuterSize  = UDim2.new(0, 610, 0, 480)
+	local miniOuterSize  = UDim2.new(0, 610, 0, 78)
 
 	local minimise = makeChromeBtn("—", -84)
 	minimise.TextSize = 16
 	minimise.MouseButton1Click:Connect(function()
 		minimised = not minimised
 		if minimised then
-			tween(main, { Size = UDim2.new(0, 580, 0, 64) }, 0.25):Play()
+			tabsHolder.Visible = false
+			pages.Visible = false
+			sidebarDivider.Visible = false
+			accentLine.Visible = false
+			tween(main, { Size = miniMainSize }, 0.25):Play()
+			tween(shadow, { Size = miniShadowSize }, 0.25):Play()
+			tween(shadowOuter, { Size = miniOuterSize }, 0.25):Play()
 			minimise.Text = "□"
 		else
-			tween(main, { Size = fullSize }, 0.25):Play()
+			tabsHolder.Visible = true
+			pages.Visible = true
+			sidebarDivider.Visible = true
+			accentLine.Visible = true
+			tween(main, { Size = fullMainSize }, 0.25):Play()
+			tween(shadow, { Size = fullShadowSize }, 0.25):Play()
+			tween(shadowOuter, { Size = fullOuterSize }, 0.25):Play()
 			minimise.Text = "—"
 		end
 	end)
 
-	--// Drag
 	do
 		local dragging, dragStart, startPos = false
 		top.InputBegan:Connect(function(input)
@@ -381,15 +396,14 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 		local c = UIS.InputChanged:Connect(function(input)
 			if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
 				local d = input.Position - dragStart
-				main.Position       = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X, startPos.Y.Scale, startPos.Y.Offset + d.Y)
-				shadow.Position     = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X - 6, startPos.Y.Scale, startPos.Y.Offset + d.Y - 6)
+				main.Position        = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X, startPos.Y.Scale, startPos.Y.Offset + d.Y)
+				shadow.Position      = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X - 6, startPos.Y.Scale, startPos.Y.Offset + d.Y - 6)
 				shadowOuter.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X - 9, startPos.Y.Scale, startPos.Y.Offset + d.Y - 9)
 			end
 		end)
 		table.insert(connections, c)
 	end
 
-	-- Sidebar divider
 	local sidebarDivider = Instance.new("Frame")
 	sidebarDivider.Size             = UDim2.new(0, 1, 1, -78)
 	sidebarDivider.Position         = UDim2.new(0, 158, 0, 72)
@@ -429,6 +443,14 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 	local tabPages     = {}
 	local activeTabIdx = 0
 
+	local function tweenTabIcon(tb, color)
+		if tb.iconIsImage then
+			tween(tb.icon, { ImageColor3 = color }, 0.15):Play()
+		else
+			tween(tb.icon, { TextColor3 = color }, 0.15):Play()
+		end
+	end
+
 	local function selectTab(index)
 		activeTabIdx = index
 		for i, p in ipairs(tabPages) do
@@ -437,12 +459,12 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			if i == index then
 				tween(tb.btn, { BackgroundColor3 = T.TabActive }, 0.15):Play()
 				tween(tb.indicator, { BackgroundTransparency = 0, Size = UDim2.new(0, 3, 0.7, 0) }, 0.2, Enum.EasingStyle.Back):Play()
-				tween(tb.icon, { TextColor3 = T.Accent }, 0.15):Play()
+				tweenTabIcon(tb, T.Accent)
 				tween(tb.name, { TextColor3 = T.Text }, 0.15):Play()
 			else
 				tween(tb.btn, { BackgroundColor3 = T.TabInactive }, 0.15):Play()
 				tween(tb.indicator, { BackgroundTransparency = 1, Size = UDim2.new(0, 3, 0.4, 0) }, 0.15):Play()
-				tween(tb.icon, { TextColor3 = T.SubText }, 0.15):Play()
+				tweenTabIcon(tb, T.SubText)
 				tween(tb.name, { TextColor3 = T.SubText }, 0.15):Play()
 			end
 		end
@@ -472,20 +494,43 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 		indicator.Parent                 = button
 		addCorner(indicator, 2)
 
-		local tabIcon = Instance.new("TextLabel")
-		tabIcon.BackgroundTransparency = 1
-		tabIcon.Size                   = UDim2.new(0, 22, 1, 0)
-		tabIcon.Position               = UDim2.new(0, 14, 0, 0)
-		tabIcon.Text                   = icon or "◈"
-		tabIcon.Font                   = Enum.Font.GothamBold
-		tabIcon.TextSize               = 14
-		tabIcon.TextColor3             = T.SubText
-		tabIcon.Parent                 = button
+		local tabIcon
+		local iconIsImage = false
+		local nameOffset = 38
+		local tabNumericId = parseAssetId(icon)
+
+		if tabNumericId then
+			iconIsImage = true
+			nameOffset = 42
+			local iconBg = Instance.new("Frame")
+			iconBg.Size                   = UDim2.new(0, 22, 0, 22)
+			iconBg.Position               = UDim2.new(0, 12, 0.5, -11)
+			iconBg.BackgroundTransparency = 1
+			iconBg.Parent                 = button
+
+			tabIcon = Instance.new("ImageLabel")
+			tabIcon.BackgroundTransparency = 1
+			tabIcon.Size                   = UDim2.new(1, 0, 1, 0)
+			tabIcon.Image                  = "rbxassetid://" .. tabNumericId
+			tabIcon.ImageColor3            = T.SubText
+			tabIcon.ScaleType              = Enum.ScaleType.Fit
+			tabIcon.Parent                 = iconBg
+		else
+			tabIcon = Instance.new("TextLabel")
+			tabIcon.BackgroundTransparency = 1
+			tabIcon.Size                   = UDim2.new(0, 22, 1, 0)
+			tabIcon.Position               = UDim2.new(0, 14, 0, 0)
+			tabIcon.Text                   = icon or "◈"
+			tabIcon.Font                   = Enum.Font.GothamBold
+			tabIcon.TextSize               = 14
+			tabIcon.TextColor3             = T.SubText
+			tabIcon.Parent                 = button
+		end
 
 		local tabName = Instance.new("TextLabel")
 		tabName.BackgroundTransparency = 1
-		tabName.Size                   = UDim2.new(1, -44, 1, 0)
-		tabName.Position               = UDim2.new(0, 38, 0, 0)
+		tabName.Size                   = UDim2.new(1, -nameOffset - 8, 1, 0)
+		tabName.Position               = UDim2.new(0, nameOffset, 0, 0)
 		tabName.Text                   = name
 		tabName.Font                   = Enum.Font.GothamBold
 		tabName.TextSize               = 13
@@ -494,17 +539,13 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 		tabName.Parent                 = button
 
 		local tabIndex = #tabPages + 1
-		table.insert(tabButtons, { btn = button, indicator = indicator, icon = tabIcon, name = tabName })
+		table.insert(tabButtons, { btn = button, indicator = indicator, icon = tabIcon, name = tabName, iconIsImage = iconIsImage })
 
 		button.MouseEnter:Connect(function()
-			if tabIndex ~= activeTabIdx then
-				tween(button, { BackgroundColor3 = T.Surface }, 0.12):Play()
-			end
+			if tabIndex ~= activeTabIdx then tween(button, { BackgroundColor3 = T.Surface }, 0.12):Play() end
 		end)
 		button.MouseLeave:Connect(function()
-			if tabIndex ~= activeTabIdx then
-				tween(button, { BackgroundColor3 = T.TabInactive }, 0.12):Play()
-			end
+			if tabIndex ~= activeTabIdx then tween(button, { BackgroundColor3 = T.TabInactive }, 0.12):Play() end
 		end)
 
 		local page = Instance.new("ScrollingFrame")
@@ -533,13 +574,8 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			page.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 14)
 		end)
 
-		button.MouseButton1Click:Connect(function()
-			selectTab(tabIndex)
-		end)
-
-		if tabIndex == 1 then
-			selectTab(1)
-		end
+		button.MouseButton1Click:Connect(function() selectTab(tabIndex) end)
+		if tabIndex == 1 then selectTab(1) end
 
 		local Elements = {}
 
@@ -551,14 +587,8 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			card.Parent           = page
 			addCorner(card, 12)
 			addStroke(card, T.Border, 0.55)
-
-			card.MouseEnter:Connect(function()
-				tween(card, { BackgroundColor3 = T.SurfaceHover }, 0.15):Play()
-			end)
-			card.MouseLeave:Connect(function()
-				tween(card, { BackgroundColor3 = T.Surface }, 0.15):Play()
-			end)
-
+			card.MouseEnter:Connect(function() tween(card, { BackgroundColor3 = T.SurfaceHover }, 0.15):Play() end)
+			card.MouseLeave:Connect(function() tween(card, { BackgroundColor3 = T.Surface }, 0.15):Play() end)
 			return card
 		end
 
@@ -581,7 +611,6 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			holder.Size                   = UDim2.new(1, -2, 0, 28)
 			holder.BackgroundTransparency = 1
 			holder.Parent                 = page
-
 			local line = Instance.new("Frame")
 			line.Size             = UDim2.new(1, -12, 0, 1)
 			line.Position         = UDim2.new(0, 6, 0.5, 0)
@@ -589,7 +618,6 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			line.BackgroundTransparency = 0.4
 			line.BorderSizePixel  = 0
 			line.Parent           = holder
-
 			local label = Instance.new("TextLabel")
 			label.AutomaticSize    = Enum.AutomaticSize.X
 			label.Size             = UDim2.new(0, 0, 1, 0)
@@ -606,7 +634,6 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			local card = makeCard(desc and 64 or 48)
 			makeLabel(card, text, 16, desc and 10 or 14, 14, true, T.Text)
 			if desc then makeLabel(card, desc, 16, 32, 12, false, T.SubText) end
-
 			local actionHint = Instance.new("TextLabel")
 			actionHint.BackgroundTransparency = 1
 			actionHint.Size                   = UDim2.new(0, 24, 0, 24)
@@ -616,7 +643,6 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			actionHint.TextSize               = 18
 			actionHint.TextColor3             = T.BorderLight
 			actionHint.Parent                 = card
-
 			local btn = Instance.new("TextButton")
 			btn.BackgroundTransparency = 1
 			btn.Size                   = UDim2.new(1, 0, 1, 0)
@@ -633,7 +659,6 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			local card  = makeCard(desc and 64 or 48)
 			makeLabel(card, text, 16, desc and 10 or 14, 14, true, T.Text)
 			if desc then makeLabel(card, desc, 16, 32, 12, false, T.SubText) end
-
 			local track = Instance.new("Frame")
 			track.Size             = UDim2.new(0, 48, 0, 26)
 			track.Position         = UDim2.new(1, -62, 0.5, -13)
@@ -641,31 +666,26 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			track.Parent           = card
 			addCorner(track, 1)
 			addStroke(track, T.Border, 0.6)
-
 			local knob = Instance.new("Frame")
 			knob.Size             = UDim2.new(0, 20, 0, 20)
 			knob.Position         = state and UDim2.new(1,-23,0.5,-10) or UDim2.new(0,3,0.5,-10)
 			knob.BackgroundColor3 = Color3.new(1,1,1)
 			knob.Parent           = track
 			addCorner(knob, 1)
-
 			local btn = Instance.new("TextButton")
 			btn.BackgroundTransparency = 1
 			btn.Size                   = UDim2.new(1, 0, 1, 0)
 			btn.Text                   = ""
 			btn.Parent                 = card
-
 			local function applyState()
 				tween(track, { BackgroundColor3 = state and T.Success or T.Track }, 0.18):Play()
 				tween(knob,  { Position = state and UDim2.new(1,-23,0.5,-10) or UDim2.new(0,3,0.5,-10) }, 0.18, Enum.EasingStyle.Back):Play()
 			end
-
 			btn.MouseButton1Click:Connect(function()
 				state = not state
 				applyState()
 				if callback then callback(state) end
 			end)
-
 			local Toggle = {}
 			function Toggle:Set(v) state = v applyState() if callback then callback(state) end end
 			function Toggle:Get() return state end
@@ -692,7 +712,6 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			local value = math.clamp(default or min, min, max)
 			local range = max - min
 			local card  = makeCard(72)
-
 			makeLabel(card, text, 16, 12, 14, true, T.Text)
 
 			local valueBg = Instance.new("Frame")
@@ -720,11 +739,10 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			addCorner(bar, 1)
 
 			local fill = Instance.new("Frame")
-			fill.Size             = UDim2.new((value-min)/range, 0, 1, 0)
+			fill.Size             = UDim2.new((value - min) / range, 0, 1, 0)
 			fill.BackgroundColor3 = T.Accent
 			fill.Parent           = bar
 			addCorner(fill, 1)
-
 			local fillGrad = Instance.new("UIGradient")
 			fillGrad.Color = ColorSequence.new(T.Accent, T.AccentDark)
 			fillGrad.Parent = fill
@@ -732,38 +750,58 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			local thumb = Instance.new("Frame")
 			thumb.Size             = UDim2.new(0, 14, 0, 14)
 			thumb.AnchorPoint      = Vector2.new(0.5, 0.5)
-			thumb.Position         = UDim2.new((value-min)/range, 0, 0.5, 0)
-			thumb.BackgroundColor3 = Color3.new(1,1,1)
+			thumb.Position         = UDim2.new((value - min) / range, 0, 0.5, 0)
+			thumb.BackgroundColor3 = Color3.new(1, 1, 1)
 			thumb.ZIndex           = 2
 			thumb.Parent           = bar
 			addCorner(thumb, 1)
 			addStroke(thumb, T.Accent, 0.3, 2)
 
 			local dragging = false
-			bar.InputBegan:Connect(function(i)
-				if i.UserInputType == Enum.UserInputType.MouseButton1 then dragging = true end
-			end)
-			bar.InputEnded:Connect(function(i)
-				if i.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
-			end)
 
-			local c = UIS.InputChanged:Connect(function(i)
-				if dragging and i.UserInputType == Enum.UserInputType.MouseMovement then
+			local function setVisual(pos)
+				value = math.floor(min + range * pos)
+				fill.Size      = UDim2.new(pos, 0, 1, 0)
+				thumb.Position = UDim2.new(pos, 0, 0.5, 0)
+				valueLbl.Text  = tostring(value)
+			end
+
+			local function finishDrag()
+				if not dragging then return end
+				dragging = false
+				if callback then callback(value) end
+			end
+
+			bar.InputBegan:Connect(function(i)
+				if i.UserInputType == Enum.UserInputType.MouseButton1 then
+					dragging = true
 					local pos = math.clamp((i.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X, 0, 1)
-					value         = math.floor(min + range * pos)
-					fill.Size     = UDim2.new(pos, 0, 1, 0)
-					thumb.Position = UDim2.new(pos, 0, 0.5, 0)
-					valueLbl.Text = tostring(value)
-					if callback then callback(value) end
+					setVisual(pos)
 				end
 			end)
-			table.insert(connections, c)
+
+			bar.InputEnded:Connect(function(i)
+				if i.UserInputType == Enum.UserInputType.MouseButton1 then finishDrag() end
+			end)
+
+			local c1 = UIS.InputChanged:Connect(function(i)
+				if dragging and i.UserInputType == Enum.UserInputType.MouseMovement then
+					local pos = math.clamp((i.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X, 0, 1)
+					setVisual(pos)
+				end
+			end)
+
+			local c2 = UIS.InputEnded:Connect(function(i)
+				if i.UserInputType == Enum.UserInputType.MouseButton1 then finishDrag() end
+			end)
+
+			table.insert(connections, c1)
+			table.insert(connections, c2)
 		end
 
 		function Elements:AddInput(text, placeholder, callback)
 			local card = makeCard(68)
 			makeLabel(card, text, 16, 10, 14, true, T.Text)
-
 			local box = Instance.new("TextBox")
 			box.Size              = UDim2.new(1, -32, 0, 32)
 			box.Position          = UDim2.new(0, 16, 0, 32)
@@ -778,7 +816,6 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			box.Parent            = card
 			addCorner(box, 9)
 			local boxStroke = addStroke(box, T.Border, 0.55)
-
 			pcall(function()
 				box.Focused:Connect(function()
 					tween(boxStroke, { Color = T.Accent, Transparency = 0.2 }, 0.15):Play()
@@ -794,60 +831,67 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 
 		function Elements:AddDropdown(text, options, callback)
 			local current = options[1] or "Select"
-			local open    = false
-			local card    = makeCard(48)
-			card.ClipsDescendants = true
+			local open = false
+			local collapsedH = 52
+			local optionH = 38
+			local optionGap = 6
+			local headerH = 52
+
+			local function getOpenHeight()
+				return headerH + 8 + (#options * (optionH + optionGap))
+			end
+
+			local card = makeCard(collapsedH)
+			card.ClipsDescendants = false
 
 			makeLabel(card, text, 16, 14, 14, true, T.Text)
 
-			local valueBg = Instance.new("Frame")
-			valueBg.Size             = UDim2.new(0, 130, 0, 28)
-			valueBg.Position         = UDim2.new(1, -146, 0.5, -14)
-			valueBg.BackgroundColor3 = T.Input
-			valueBg.Parent           = card
-			addCorner(valueBg, 8)
-			addStroke(valueBg, T.Border, 0.5)
-
-			local valueLbl = Instance.new("TextLabel")
-			valueLbl.BackgroundTransparency = 1
-			valueLbl.Size                   = UDim2.new(1, -24, 1, 0)
-			valueLbl.Position               = UDim2.new(0, 10, 0, 0)
-			valueLbl.Text                   = current
-			valueLbl.Font                   = Enum.Font.Gotham
-			valueLbl.TextSize               = 12
-			valueLbl.TextColor3             = T.Text
-			valueLbl.TextXAlignment         = Enum.TextXAlignment.Left
-			valueLbl.Parent                 = valueBg
+			local selectedLbl = Instance.new("TextLabel")
+			selectedLbl.BackgroundTransparency = 1
+			selectedLbl.Size                   = UDim2.new(0, 140, 0, 20)
+			selectedLbl.Position               = UDim2.new(1, -170, 0, 16)
+			selectedLbl.Text                   = current
+			selectedLbl.Font                   = Enum.Font.Gotham
+			selectedLbl.TextSize               = 12
+			selectedLbl.TextColor3             = T.SubText
+			selectedLbl.TextXAlignment         = Enum.TextXAlignment.Right
+			selectedLbl.Parent                 = card
 
 			local arrow = Instance.new("TextLabel")
 			arrow.BackgroundTransparency = 1
-			arrow.Size                   = UDim2.new(0, 20, 1, 0)
-			arrow.Position               = UDim2.new(1, -22, 0, 0)
+			arrow.Size                   = UDim2.new(0, 20, 0, 20)
+			arrow.Position               = UDim2.new(1, -28, 0, 16)
 			arrow.Text                   = "▾"
 			arrow.Font                   = Enum.Font.GothamBold
 			arrow.TextSize               = 12
 			arrow.TextColor3             = T.Accent
-			arrow.Parent                 = valueBg
-
-			local btn = Instance.new("TextButton")
-			btn.BackgroundTransparency = 1
-			btn.Size                   = UDim2.new(1, 0, 1, 0)
-			btn.Text                   = ""
-			btn.Parent                 = card
+			arrow.Parent                 = card
 
 			local holder = Instance.new("Frame")
 			holder.BackgroundTransparency = 1
-			holder.Position               = UDim2.new(0, 10, 0, 50)
-			holder.Size                   = UDim2.new(1, -20, 0, 0)
+			holder.Position               = UDim2.new(0, 12, 0, headerH)
+			holder.Size                   = UDim2.new(1, -24, 0, #options * (optionH + optionGap))
+			holder.Visible                = false
 			holder.Parent                 = card
 
 			local optLayout = Instance.new("UIListLayout")
-			optLayout.Padding = UDim.new(0, 5)
+			optLayout.Padding = UDim.new(0, optionGap)
 			optLayout.Parent  = holder
+
+			local optButtons = {}
+
+			local function refreshOptions()
+				for _, entry in ipairs(optButtons) do
+					local isSel = entry.value == current
+					entry.btn.BackgroundColor3 = isSel and T.TabActive or T.Input
+					entry.btn.TextColor3       = isSel and T.Accent or T.SubText
+				end
+				selectedLbl.Text = current
+			end
 
 			for _, opt in ipairs(options) do
 				local ob = Instance.new("TextButton")
-				ob.Size             = UDim2.new(1, 0, 0, 34)
+				ob.Size             = UDim2.new(1, 0, 0, optionH)
 				ob.BackgroundColor3 = T.Input
 				ob.Text             = tostring(opt)
 				ob.TextColor3       = T.SubText
@@ -855,40 +899,50 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 				ob.TextSize         = 13
 				ob.AutoButtonColor  = false
 				ob.Parent           = holder
-				addCorner(ob, 8)
+				addCorner(ob, 10)
 				addStroke(ob, T.Border, 0.7)
 
 				ob.MouseEnter:Connect(function()
-					tween(ob, { BackgroundColor3 = T.SurfaceHover, TextColor3 = T.Text }, 0.12):Play()
+					if current ~= tostring(opt) then
+						tween(ob, { BackgroundColor3 = T.SurfaceHover, TextColor3 = T.Text }, 0.12):Play()
+					end
 				end)
-				ob.MouseLeave:Connect(function()
-					tween(ob, { BackgroundColor3 = T.Input, TextColor3 = T.SubText }, 0.12):Play()
-				end)
+				ob.MouseLeave:Connect(function() refreshOptions() end)
 
 				ob.MouseButton1Click:Connect(function()
-					current       = tostring(opt)
-					valueLbl.Text = current
-					open          = false
-					arrow.Text    = "▾"
-					tween(card, { Size = UDim2.new(1,-2,0,48) }, 0.2):Play()
+					current = tostring(opt)
+					refreshOptions()
+					setOpen(false)
 					if callback then callback(opt) end
 				end)
+
+				table.insert(optButtons, { btn = ob, value = tostring(opt) })
 			end
 
-			btn.MouseButton1Click:Connect(function()
-				open = not open
-				tween(card, { Size = UDim2.new(1,-2,0, open and (54 + #options*39) or 48) }, 0.22):Play()
+			refreshOptions()
+
+			local toggleBtn = Instance.new("TextButton")
+			toggleBtn.BackgroundTransparency = 1
+			toggleBtn.Size                   = UDim2.new(1, 0, 0, headerH)
+			toggleBtn.Text                   = ""
+			toggleBtn.Parent                 = card
+
+			function setOpen(state)
+				open = state
+				holder.Visible = open
+				selectedLbl.Visible = not open
 				arrow.Text = open and "▴" or "▾"
-			end)
+				tween(card, { Size = UDim2.new(1, -2, 0, open and getOpenHeight() or collapsedH) }, 0.22):Play()
+			end
+
+			toggleBtn.MouseButton1Click:Connect(function() setOpen(not open) end)
 		end
 
 		function Elements:AddKeybind(text, default, callback)
 			local key     = default or Enum.KeyCode.RightShift
 			local card    = makeCard(48)
 			local waiting = false
-
 			makeLabel(card, text, 16, 14, 14, true, T.Text)
-
 			local bindBtn = Instance.new("TextButton")
 			bindBtn.Size             = UDim2.new(0, 96, 0, 28)
 			bindBtn.Position         = UDim2.new(1, -110, 0.5, -14)
@@ -901,37 +955,30 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 			bindBtn.Parent           = card
 			addCorner(bindBtn, 8)
 			local bindStroke = addStroke(bindBtn, T.Border, 0.5)
-
-			bindBtn.MouseEnter:Connect(function()
-				tween(bindBtn, { BackgroundColor3 = T.SurfaceHover }, 0.12):Play()
-			end)
+			bindBtn.MouseEnter:Connect(function() tween(bindBtn, { BackgroundColor3 = T.SurfaceHover }, 0.12):Play() end)
 			bindBtn.MouseLeave:Connect(function()
 				if not waiting then tween(bindBtn, { BackgroundColor3 = T.Input }, 0.12):Play() end
 			end)
-
 			bindBtn.MouseButton1Click:Connect(function()
 				if waiting then return end
-				waiting      = true
+				waiting = true
 				bindBtn.Text = "..."
 				tween(bindStroke, { Color = T.Accent, Transparency = 0.2 }, 0.15):Play()
 				local c
 				c = UIS.InputBegan:Connect(function(input, gp)
 					if gp then return end
 					if input.UserInputType == Enum.UserInputType.Keyboard then
-						key          = input.KeyCode
+						key = input.KeyCode
 						bindBtn.Text = key.Name
-						waiting      = false
+						waiting = false
 						tween(bindStroke, { Color = T.Border, Transparency = 0.5 }, 0.15):Play()
 						c:Disconnect()
 					end
 				end)
 			end)
-
 			local c = UIS.InputBegan:Connect(function(input, gp)
 				if gp then return end
-				if input.KeyCode == key then
-					if callback then callback() end
-				end
+				if input.KeyCode == key and callback then callback() end
 			end)
 			table.insert(connections, c)
 		end
