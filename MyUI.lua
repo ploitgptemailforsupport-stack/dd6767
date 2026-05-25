@@ -304,7 +304,7 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 
 	-- Tabs scroll container inside topBar (left area)
 	local tabsScrollFrame = Instance.new("Frame")
-	tabsScrollFrame.Size                   = UDim2.new(1, -100, 1, -8)
+	tabsScrollFrame.Size                   = UDim2.new(1, -140, 1, -8)
 	tabsScrollFrame.Position               = UDim2.new(0, 8, 0, 4)
 	tabsScrollFrame.BackgroundTransparency = 1
 	tabsScrollFrame.ClipsDescendants       = true
