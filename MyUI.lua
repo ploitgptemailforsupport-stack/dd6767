@@ -190,7 +190,7 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 	sg.Parent          = PlayerGui
 
 	local shadowOuter = Instance.new("Frame")
-	shadowOuter.Size                   = UDim2.new(0, 610, 0, 510)
+	shadowOuter.Size                   = UDim2.new(0, 650, 0, 510)
 	shadowOuter.Position               = UDim2.new(0.5, -305, 0.5, -255)
 	shadowOuter.BackgroundColor3       = T.Accent
 	shadowOuter.BackgroundTransparency = 0.92
@@ -199,7 +199,7 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 	addCorner(shadowOuter, 24)
 
 	local shadow = Instance.new("Frame")
-	shadow.Size                   = UDim2.new(0, 596, 0, 496)
+	shadow.Size                   = UDim2.new(0, 636, 0, 496)
 	shadow.Position               = UDim2.new(0.5, -298, 0.5, -248)
 	shadow.BackgroundColor3       = Color3.new(0, 0, 0)
 	shadow.BackgroundTransparency = 0.55
@@ -209,7 +209,7 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 
 	-- Main window: taller to fit top tabs + bottom bar
 	local main = Instance.new("Frame")
-	main.Size             = UDim2.new(0, 580, 0, 480)
+	main.Size             = UDim2.new(0, 620, 0, 480)
 	main.Position         = UDim2.new(0.5, -290, 0.5, -240)
 	main.BackgroundColor3 = T.Background
 	main.ClipsDescendants = true
@@ -218,9 +218,9 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 	addStroke(main, T.Border, 0.35, 1)
 
 	-- Spawn animation
-	main.Size     = UDim2.new(0, 560, 0, 460)
+	main.Size     = UDim2.new(0, 600, 0, 460)
 	main.Position = UDim2.new(0.5, -280, 0.5, -230)
-	tween(main, { Size = UDim2.new(0, 580, 0, 480), Position = UDim2.new(0.5, -290, 0.5, -240) }, 0.35, Enum.EasingStyle.Back):Play()
+	tween(main, { Size = UDim2.new(0, 620, 0, 480), Position = UDim2.new(0.5, -290, 0.5, -240) }, 0.35, Enum.EasingStyle.Back):Play()
 
 	-- ============================================================
 	-- TOP BAR  (tabs row — full width, 46px tall)
