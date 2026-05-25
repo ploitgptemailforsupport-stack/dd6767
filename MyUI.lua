@@ -26,12 +26,12 @@ GrokaUI.Theme = {
 }
 
 GrokaUI.Icons = {
-	Text    = "rbxassetid://6031094678",
-	Combat  = "rbxassetid://6031280882",
-	Player  = "rbxassetid://6031265976",
-	Settings = "rbxassetid://6031302798",
-	Home    = "rbxassetid://6031068424",
-	Star    = "rbxassetid://6031071053",
+	Shop    = "rbxassetid://14736132203",
+	Combat  = "rbxassetid://1506618227",
+	Player  = "rbxassetid://2243841665",
+	Settings = "rbxassetid://18801194979",
+	Home    = "rbxassetid://1249553442",
+	Star    = "rbxassetid://17843890299",
 	Warning = "rbxassetid://6031071057",
 	Info    = "rbxassetid://6031075049",
 }
