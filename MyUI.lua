@@ -444,11 +444,7 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 	local activeTabIdx = 0
 
 	local function tweenTabIcon(tb, color)
-		if tb.iconIsImage then
-			tween(tb.icon, { ImageColor3 = color }, 0.15):Play()
-		else
-			tween(tb.icon, { TextColor3 = color }, 0.15):Play()
-		end
+		tween(tb.icon, { ImageColor3 = color }, 0.15):Play()
 	end
 
 	local function selectTab(index)
@@ -494,38 +490,23 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 		indicator.Parent                 = button
 		addCorner(indicator, 2)
 
-		local tabIcon
-		local iconIsImage = false
-		local nameOffset = 38
-		local tabNumericId = parseAssetId(icon)
+		-- TAB ICON: ImageLabel only (rbxassetid)
+		local tabNumericId = parseAssetId(icon) or parseAssetId(GrokaUI.Icons.Info)
+		local nameOffset = 42
 
-		if tabNumericId then
-			iconIsImage = true
-			nameOffset = 42
-			local iconBg = Instance.new("Frame")
-			iconBg.Size                   = UDim2.new(0, 22, 0, 22)
-			iconBg.Position               = UDim2.new(0, 12, 0.5, -11)
-			iconBg.BackgroundTransparency = 1
-			iconBg.Parent                 = button
+		local iconBg = Instance.new("Frame")
+		iconBg.Size                   = UDim2.new(0, 22, 0, 22)
+		iconBg.Position               = UDim2.new(0, 12, 0.5, -11)
+		iconBg.BackgroundTransparency = 1
+		iconBg.Parent                 = button
 
-			tabIcon = Instance.new("ImageLabel")
-			tabIcon.BackgroundTransparency = 1
-			tabIcon.Size                   = UDim2.new(1, 0, 1, 0)
-			tabIcon.Image                  = "rbxassetid://" .. tabNumericId
-			tabIcon.ImageColor3            = T.SubText
-			tabIcon.ScaleType              = Enum.ScaleType.Fit
-			tabIcon.Parent                 = iconBg
-		else
-			tabIcon = Instance.new("TextLabel")
-			tabIcon.BackgroundTransparency = 1
-			tabIcon.Size                   = UDim2.new(0, 22, 1, 0)
-			tabIcon.Position               = UDim2.new(0, 14, 0, 0)
-			tabIcon.Text                   = icon or "◈"
-			tabIcon.Font                   = Enum.Font.GothamBold
-			tabIcon.TextSize               = 14
-			tabIcon.TextColor3             = T.SubText
-			tabIcon.Parent                 = button
-		end
+		local tabIcon = Instance.new("ImageLabel")
+		tabIcon.BackgroundTransparency = 1
+		tabIcon.Size                   = UDim2.new(1, 0, 1, 0)
+		tabIcon.Image                  = "rbxassetid://" .. tabNumericId
+		tabIcon.ImageColor3            = Color3.new(1, 1, 1)
+		tabIcon.ScaleType              = Enum.ScaleType.Fit
+		tabIcon.Parent                 = iconBg
 
 		local tabName = Instance.new("TextLabel")
 		tabName.BackgroundTransparency = 1
@@ -539,7 +520,7 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 		tabName.Parent                 = button
 
 		local tabIndex = #tabPages + 1
-		table.insert(tabButtons, { btn = button, indicator = indicator, icon = tabIcon, name = tabName, iconIsImage = iconIsImage })
+		table.insert(tabButtons, { btn = button, indicator = indicator, icon = tabIcon, name = tabName })
 
 		button.MouseEnter:Connect(function()
 			if tabIndex ~= activeTabIdx then tween(button, { BackgroundColor3 = T.Surface }, 0.12):Play() end
