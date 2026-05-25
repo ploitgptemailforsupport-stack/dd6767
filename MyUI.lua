@@ -38,7 +38,7 @@ GrokaUI.Icons = {
 }
 
 -- Credits shown in bottom-right of every window
-GrokaUI.Credits = "Groka UI v5 • by Groka"
+GrokaUI.Credits = "Groka UI Library v5 | By tg9ze - Commander; Grok - Ideea; Claude - Designer"
 
 local TweenService = game:GetService("TweenService")
 local UIS          = game:GetService("UserInputService")
