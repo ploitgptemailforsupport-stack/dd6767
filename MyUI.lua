@@ -290,8 +290,8 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 		return btn
 	end
 
-	local close    = makeChromeBtn("✕", -20, T.Danger)
-	local minimise = makeChromeBtn("—", -58)
+	local close    = makeChromeBtn("✕", -28, T.Danger)
+	local minimise = makeChromeBtn("—", -66)
 	minimise.TextSize = 15
 
 	close.MouseEnter:Connect(function() tween(close, { BackgroundColor3 = T.Danger, TextColor3 = Color3.new(1,1,1) }, 0.15):Play() end)
