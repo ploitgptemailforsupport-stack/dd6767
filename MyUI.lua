@@ -290,8 +290,8 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 		return btn
 	end
 
-	local close    = makeChromeBtn("✕", -10, T.Danger)
-	local minimise = makeChromeBtn("—", -48)
+	local close    = makeChromeBtn("✕", -20, T.Danger)
+	local minimise = makeChromeBtn("—", -58)
 	minimise.TextSize = 15
 
 	close.MouseEnter:Connect(function() tween(close, { BackgroundColor3 = T.Danger, TextColor3 = Color3.new(1,1,1) }, 0.15):Play() end)
@@ -305,17 +305,26 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 	end)
 
 	-- Tabs row in top bar
-	local tabsScrollFrame = Instance.new("Frame")
-	tabsScrollFrame.Size                   = UDim2.new(1, -100, 1, -8)
-	tabsScrollFrame.Position               = UDim2.new(0, 8, 0, 4)
-	tabsScrollFrame.BackgroundTransparency = 1
-	tabsScrollFrame.ClipsDescendants       = true
-	tabsScrollFrame.ZIndex                 = 5
-	tabsScrollFrame.Parent                 = topBar
+	local tabsScrollFrame = Instance.new("ScrollingFrame")
+	tabsScrollFrame.Size                   = UDim2.new(1, -130, 1, -8)
+tabsScrollFrame.Position               = UDim2.new(0, 8, 0, 4)
+tabsScrollFrame.BackgroundTransparency = 1
+tabsScrollFrame.BorderSizePixel        = 0
+
+tabsScrollFrame.ScrollingDirection     = Enum.ScrollingDirection.X
+tabsScrollFrame.AutomaticCanvasSize    = Enum.AutomaticSize.X
+tabsScrollFrame.CanvasSize             = UDim2.new(0,0,0,0)
+
+tabsScrollFrame.ScrollBarThickness     = 4
+tabsScrollFrame.ScrollBarImageColor3   = T.Accent
+tabsScrollFrame.ScrollBarImageTransparency = 0.3
+
+tabsScrollFrame.ZIndex                 = 5
+tabsScrollFrame.Parent                 = topBar
 
 	local tabsRow = Instance.new("Frame")
-	tabsRow.Size                   = UDim2.new(0, 0, 1, 0)
-	tabsRow.AutomaticSize          = Enum.AutomaticSize.X
+tabsRow.Size                   = UDim2.new(0, 0, 1, 0)
+tabsRow.AutomaticSize          = Enum.AutomaticSize.X
 	tabsRow.BackgroundTransparency = 1
 	tabsRow.ZIndex                 = 5
 	tabsRow.Parent                 = tabsScrollFrame
@@ -326,6 +335,15 @@ function GrokaUI:CreateWindow(title, subtitle, icon)
 	tabsRowLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 	tabsRowLayout.SortOrder         = Enum.SortOrder.LayoutOrder
 	tabsRowLayout.Parent            = tabsRow
+
+	tabsRowLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	tabsScrollFrame.CanvasSize = UDim2.new(
+		0,
+		tabsRowLayout.AbsoluteContentSize.X + 20,
+		0,
+		0
+	)
+end)
 
 	-- Minimise
 	local minimised = false
